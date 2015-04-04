@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
     <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
 
-	<script src="../src/TileLayer.ArcGIS.js"></script>
+	<script src="../src/TileLayer.Rosreestr.js"></script>
     <style>
         html, body, #map {
             height: 100%;
@@ -38,7 +38,7 @@
 	<div id="map"></div>
     <div id="infoPanel">
         <span id="info">
-                L.TileLayer.ArcGIS is used for test maps.rosreestr.ru tiles.
+                L.TileLayer.Rosreestr is used for test maps.rosreestr.ru tiles.
         </span>
     </div>
 
@@ -53,7 +53,7 @@
             zoom: 15
         });
 
-        var rosreestr = L.tileLayer.ArcGIS('http://{s}.maps.rosreestr.ru/arcgis/rest/services/Cadastre/Cadastre/MapServer/export?dpi=96&transparent=true&format=png32&bbox={bbox}&size=1024,1024&bboxSR=102100&imageSR=102100&f=image', {
+        var rosreestr = L.tileLayer.Rosreestr('http://{s}.maps.rosreestr.ru/arcgis/rest/services/Cadastre/Cadastre/MapServer/export?dpi=96&transparent=true&format=png32&bbox={bbox}&size=1024,1024&bboxSR=102100&imageSR=102100&f=image', {
             tileSize: 1024,
             attribution: 'Rosreestr'
         });

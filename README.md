@@ -1,11 +1,11 @@
-L.TileLayer.ArcGIS
+L.TileLayer.Rosreestr 
 ==========
 
-Plugin for ArcGIS tiles.
+Plugin for Rosreestr tiles.
 
 ## Demos
 
-- [View OSM and Rosreestr &rarr;](http://originalsin.github.io/Leaflet.TileLayer.ArcGIS/examples/LayerRosreestr.html)
+- [View OSM and Rosreestr &rarr;](http://originalsin.github.io/Leaflet.TileLayer.Rosreestr/examples/LayerRosreestr.html)
 
 
 ## Basic Usage

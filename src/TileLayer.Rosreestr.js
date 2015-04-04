@@ -1,8 +1,8 @@
 /*
- * L.TileLayer.ArcGIS
+ * L.TileLayer.Rosreestr
  */
 
-L.TileLayer.ArcGIS = L.TileLayer.extend({
+L.TileLayer.Rosreestr = L.TileLayer.extend({
     options: {
         tileSize: 1024
     },
@@ -25,6 +25,6 @@ L.TileLayer.ArcGIS = L.TileLayer.extend({
     }
 });
 
-L.tileLayer.ArcGIS = function (url, options) {
-    return new L.TileLayer.ArcGIS(url, options);
+L.tileLayer.Rosreestr = function (url, options) {
+    return new L.TileLayer.Rosreestr(url, options);
 };
