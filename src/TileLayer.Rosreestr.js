@@ -31,25 +31,28 @@ var addInteractionMixin = function(BaseClass) {
         onAdd: function (map) {
             L.TileLayer.prototype.onAdd.call(this, map);
             if (this.options.clickable) {
-                this._initInteraction();
+                L.DomUtil.addClass(this._container, 'leaflet-clickable-raster-layer');
+                if (this._needInitInteraction) {
+                    this._initInteraction();
+                    this._needInitInteraction = false;
+                }
             }
         },
+        _needInitInteraction: true,
 
         _initInteraction: function () {
             var div = this._container,
                 events = ['dblclick', 'click', 'mousedown', 'mouseover', 'mouseout', 'contextmenu'];
 
-            if (this.hasEventListeners('click')) {
-                L.DomUtil.addClass(div, 'leaflet-clickable-raster-layer');
-                for (var i = 0; i < events.length; i++) {
-                    L.DomEvent.on(div, events[i], this._fireMouseEvent, this);
-                }
+            for (var i = 0; i < events.length; i++) {
+                L.DomEvent.on(div, events[i], this._fireMouseEvent, this);
             }
         },
         _fireMouseEvent: function (e) {
+            var map = this._map;
+            if (map.dragging && map.dragging.moved()) { return; }
 
-            var map = this._map,
-                containerPoint = map.mouseEventToContainerPoint(e),
+            var containerPoint = map.mouseEventToContainerPoint(e),
                 layerPoint = map.containerPointToLayerPoint(containerPoint),
                 latlng = map.layerPointToLatLng(layerPoint);
 
@@ -59,14 +62,7 @@ var addInteractionMixin = function(BaseClass) {
                 containerPoint: containerPoint,
                 originalEvent: e
             });
-
-            if (e.type === 'contextmenu') {
-                L.DomEvent.preventDefault(e);
-            }
-            if (e.type !== 'mousemove') {
-                L.DomEvent.stopPropagation(e);
-            }
-        },
+        }
     })
 };
 L.TileLayer.Rosreestr = addTileUrlMixin(L.TileLayer);
