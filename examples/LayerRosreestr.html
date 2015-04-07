@@ -7,7 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
-    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet-src.js"></script>
 
 	<script src="../src/TileLayer.Rosreestr.js"></script>
     <style>
@@ -55,7 +55,10 @@
 
         var rosreestr = L.tileLayer.Rosreestr('http://{s}.maps.rosreestr.ru/arcgis/rest/services/Cadastre/Cadastre/MapServer/export?dpi=96&transparent=true&format=png32&bbox={bbox}&size=1024,1024&bboxSR=102100&imageSR=102100&f=image', {
             tileSize: 1024,
+            clickable: true,
             attribution: 'Rosreestr'
+        }).on('click', function (ev) {
+            console.log('click', ev);
         });
 
         var LayersControl = L.control.layers({

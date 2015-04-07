@@ -2,7 +2,7 @@
  * L.TileLayer.Rosreestr
  */
 +function() {
-var addRosreestrMixin = function(BaseClass) {
+var addTileUrlMixin = function(BaseClass) {
     return BaseClass.extend({
         options: {
             tileSize: 1024
@@ -26,10 +26,55 @@ var addRosreestrMixin = function(BaseClass) {
         }
     })
 };
+var addInteractionMixin = function(BaseClass) {
+    return BaseClass.extend({
+        onAdd: function (map) {
+            L.TileLayer.prototype.onAdd.call(this, map);
+            if (this.options.clickable) {
+                this._initInteraction();
+            }
+        },
 
-L.TileLayer.Rosreestr = addRosreestrMixin(L.TileLayer);
+        _initInteraction: function () {
+            var div = this._container,
+                events = ['dblclick', 'click', 'mousedown', 'mouseover', 'mouseout', 'contextmenu'];
+
+            if (this.hasEventListeners('click')) {
+                L.DomUtil.addClass(div, 'leaflet-clickable-raster-layer');
+                for (var i = 0; i < events.length; i++) {
+                    L.DomEvent.on(div, events[i], this._fireMouseEvent, this);
+                }
+            }
+        },
+        _fireMouseEvent: function (e) {
+
+            var map = this._map,
+                containerPoint = map.mouseEventToContainerPoint(e),
+                layerPoint = map.containerPointToLayerPoint(containerPoint),
+                latlng = map.layerPointToLatLng(layerPoint);
+
+            this.fire(e.type, {
+                latlng: latlng,
+                layerPoint: layerPoint,
+                containerPoint: containerPoint,
+                originalEvent: e
+            });
+
+            if (e.type === 'contextmenu') {
+                L.DomEvent.preventDefault(e);
+            }
+            if (e.type !== 'mousemove') {
+                L.DomEvent.stopPropagation(e);
+            }
+        },
+    })
+};
+L.TileLayer.Rosreestr = addTileUrlMixin(L.TileLayer);
 
 L.tileLayer.Rosreestr = function (url, options) {
+    if (options.clickable) {
+        L.TileLayer.Rosreestr = addInteractionMixin(L.TileLayer.Rosreestr);
+    }
     return new L.TileLayer.Rosreestr(url, options);
 };
 
